@@ -37,9 +37,11 @@ nyc_transit = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.
 
 **Item: How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St A/B/C/D; 125st 1; 125st 4/5); the distinct function may be useful here.**
 
-There are `r ` distinct stations in this dataset. 
+There are `r nrow(distinct(nyc_transit, station_name, route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11))` distinct stations in this dataset. 
 
 **Item: How many stations are ADA compliant?**
+
+There are `r` ADA compliant stations.
 
 **Item: What proportion of station entrances / exits without vending allow entrance?**
 
