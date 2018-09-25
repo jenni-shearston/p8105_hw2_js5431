@@ -16,26 +16,34 @@ library(tidyverse)
 
 #### Importing and tidying up the data
 
-```{r import and look at data, message = FALSE}
+```{r import and clean data, message = FALSE}
 nyc_transit = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
-  janitor::clean_names()
+  janitor::clean_names() %>% 
+  select(line:station_longitude, entry, entrance_type, vending, ada, starts_with("route")) %>% 
+  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE)) %>% 
+  rename(station_lat = station_latitude, 
+         station_long = station_longitude)
+#nyc_transit
 
-#View(nyc_transit)
-#skimr::skim(nyc_transit)
 ```
 
 #### Describing the data
 
 *Instructions:* Write a short paragraph about this dataset – explain briefly what variables the dataset contains, describe your data cleaning steps so far, and give the dimension (rows x columns) of the resulting dataset. Are these data tidy?
 
-*Response:* 
+*Response:* This dataset contains information on New York City subway lines and stations, including the line (e.g. 4th Avenue), station name, exact station location (latitute and longitude), routes served (e.g. A, 1), entrances and entrance types, presence of vendors, and ADA compliance. The data have been imported to R, variable names have been cleaned, variables have been re-ordered to make them easier to read, and the "entry" variable has been changed from a character to a logical variable. In its current form, the data is in a table of dimensions `r nrow(nyc_transit)` x `r ncol(nyc_transit)`. The data are somewhat tidy, but more work could be done. I would suggest creating an additional variable that sums the number of routes served by a station.  
 
 #### Question responses
 
-*Item: How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St A/B/C/D; 125st 1; 125st 4/5); the distinct function may be useful here.*
+**Item: How many distinct stations are there? Note that stations are identified both by name and by line (e.g. 125th St A/B/C/D; 125st 1; 125st 4/5); the distinct function may be useful here.**
 
-*Item: How many stations are ADA compliant?*
+There are `r ` distinct stations in this dataset. 
 
-*Item: What proportion of station entrances / exits without vending allow entrance?*
+**Item: How many stations are ADA compliant?**
 
-*Item: Reformat data so that route number and route name are distinct variables. How many distinct stations serve the A train? How many are ADA compliant?*
+**Item: What proportion of station entrances / exits without vending allow entrance?**
+
+**Item: Reformat data so that route number and route name are distinct variables. How many distinct stations serve the A train? How many are ADA compliant?**
+
+
+## Problem #2
