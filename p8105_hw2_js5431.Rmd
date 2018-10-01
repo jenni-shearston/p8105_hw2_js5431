@@ -114,8 +114,8 @@ Combining 2016 and 2017 Precipitation Data
 
 ```{r}
 
-
-
+precip = bind_rows(precip_2016, precip_2017)
+View(precip)
 summary(precip)
 
 ```
