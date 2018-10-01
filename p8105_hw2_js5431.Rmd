@@ -78,7 +78,48 @@ trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.
 
 #### Reading in and cleaning precipitation data
 
+2017 Precipitation Data
+
+```{r import and clean data 3}
+library(readxl)
+
+precip_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+                                 sheet = "2017 Precipitation", 
+                                 range = "A2:B14") %>% 
+  janitor::clean_names() %>%
+  rename(precip_inches = total) %>% 
+  mutate(year = "2017",
+         month = month.name) %>% 
+  filter(!is.na(precip_inches))
+
+View(precip_2017)
+```
+
+ 2016 Precipitation Data
+ 
 ```{r}
+precip_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+                                 sheet = "2016 Precipitation", 
+                                 range = "A2:B14") %>% 
+  janitor::clean_names() %>%
+  rename(precip_inches = total) %>% 
+  mutate(year = "2016",
+         month = month.name)
+
+View(precip_2016)
 
 ```
+
+Combining 2016 and 2017 Precipitation Data
+
+```{r}
+
+
+
+summary(precip)
+
+```
+
+
+#### Description of the Mr. Trash Wheel dataset
 
