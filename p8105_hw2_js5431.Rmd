@@ -59,3 +59,26 @@ Reformatting
 
 
 ## Problem #2
+
+#### Reading in and cleaning Mr. Trash Wheel data
+
+```{r import and clean data 2}
+library(readxl)
+trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+                                 sheet = "Mr. Trash Wheel", 
+                                 range = "A2:N258") %>% 
+  janitor::clean_names() %>% 
+  filter(!is.na(dumpster)) %>% 
+  mutate(
+    sports_balls = round(sports_balls, digits = 0),
+    sports_balls = as.integer(sports_balls)
+    )
+
+```
+
+#### Reading in and cleaning precipitation data
+
+```{r}
+
+```
+
