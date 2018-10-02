@@ -130,6 +130,62 @@ The precipiation dataset includes precipitation in inches from 2016 and 2017. Th
 
 The total precipitation in 2017 for January-August was `r filter(precip, year == "2017") %>% summarise(sum_precip_2017 = sum(precip_inches))` inches. In 2016, the median number of sports balls accumulated by Mr. Trash Wheel was `r filter(trash_wheel, year == "2016") %>% summarise(med_balls_2016 = median(sports_balls))`.
 
-##
+## Problem #3
+
+#### Loading and cleaning BRFSS data
+
+```{r loading & cleaning brfss data}
+devtools::install_github("p8105/p8105.datasets")
+library(p8105.datasets)
+
+brfss = p8105.datasets::brfss_smart2010 %>% 
+  janitor::clean_names() %>%
+  filter(topic == "Overall Health") %>% 
+  select(year, locationabbr, locationdesc, response, data_value) %>% 
+  spread(key = response, value = data_value) %>% 
+  janitor::clean_names() %>% 
+  mutate(ex_vg = excellent + very_good) %>% 
+  select(year, locationabbr, locationdesc, ex_vg, excellent,
+         very_good, good, fair, poor) # re-ordering for my benefit
+  
+```
+
+#### Answering / doing four items
+
+*Item 1: How many unique locations are included in the dataset? Is every state represented? What state is observed the most?*
+
+* `r summarise(brfss, unique_loc = n_distinct(locationdesc))` unique locations are included in the dataset.
+
+* Every state is represented.
+```{r}
+summarise(brfss, unique_state = n_distinct(locationabbr))
+distinct(brfss, locationabbr)
+```
+
+* Florida is the most observed state.
+```{r}
+table(brfss$locationabbr)
+```
+
+
+*Item 2: In 2002, what is the median of the “Excellent” response value?*
+
+```{r}
+
+```
+
+
+*Item 3: Make a histogram of “Excellent” response values in the year 2002.*
+
+```{r}
+
+```
+
+
+*Item 4: Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.*
+
+```{r}
+
+```
 
 
