@@ -16,7 +16,7 @@ library(tidyverse)
 
 #### Importing and tidying up the data
 
-```{r import and clean data, message = FALSE}
+```{r import and clean transit data, message = FALSE}
 nyc_transit = read_csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
   janitor::clean_names() %>% 
   select(line:station_longitude, entry, entrance_type, vending, ada, starts_with("route")) %>% 
@@ -62,7 +62,7 @@ Reformatting
 
 #### Reading in and cleaning Mr. Trash Wheel data
 
-```{r import and clean data 2}
+```{r import and clean trash wheel data}
 library(readxl)
 trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
                                  sheet = "Mr. Trash Wheel", 
@@ -80,7 +80,7 @@ trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.
 
 2017 Precipitation Data
 
-```{r import and clean data 3}
+```{r clean precip 2017 data}
 library(readxl)
 
 precip_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
@@ -97,7 +97,7 @@ View(precip_2017)
 
  2016 Precipitation Data
  
-```{r}
+```{r clean precip 2016 data}
 precip_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
                                  sheet = "2016 Precipitation", 
                                  range = "A2:B14") %>% 
@@ -112,7 +112,7 @@ View(precip_2016)
 
 Combining 2016 and 2017 Precipitation Data
 
-```{r}
+```{r binding precip data}
 
 precip = bind_rows(precip_2016, precip_2017)
 View(precip)
