@@ -8,8 +8,17 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
+library(readxl)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
 ```
 
 ## Problem #1
@@ -63,7 +72,6 @@ Reformatting
 #### Reading in and cleaning Mr. Trash Wheel data
 
 ```{r import and clean trash wheel data}
-library(readxl)
 trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
                                  sheet = "Mr. Trash Wheel", 
                                  range = "A2:N258") %>% 
@@ -73,7 +81,6 @@ trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.
     sports_balls = round(sports_balls, digits = 0),
     sports_balls = as.integer(sports_balls)
     )
-
 ```
 
 #### Reading in and cleaning precipitation data
@@ -81,8 +88,6 @@ trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.
 2017 Precipitation Data
 
 ```{r clean precip 2017 data}
-library(readxl)
-
 precip_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
                                  sheet = "2017 Precipitation", 
                                  range = "A2:B14") %>% 
@@ -113,11 +118,9 @@ View(precip_2016)
 Combining 2016 and 2017 Precipitation Data
 
 ```{r binding precip data}
-
 precip = bind_rows(precip_2016, precip_2017)
 View(precip)
 summary(precip)
-
 ```
 
 #### Description of the Mr. Trash Wheel dataset
@@ -159,7 +162,6 @@ brfss = p8105.datasets::brfss_smart2010 %>%
 * Every state is represented.
 ```{r}
 summarise(brfss, unique_state = n_distinct(locationabbr))
-distinct(brfss, locationabbr)
 ```
 
 * Florida is the most observed state.
@@ -170,21 +172,41 @@ table(brfss$locationabbr)
 
 *Item 2: In 2002, what is the median of the “Excellent” response value?*
 
-```{r}
-
-```
+The median "Excellent" response in 2002 is `r filter(brfss, year == "2002") %>% summarise(ex_median = median(excellent, na.rm = TRUE))`.
 
 
 *Item 3: Make a histogram of “Excellent” response values in the year 2002.*
 
 ```{r}
-
+filter(brfss, year == "2002") %>% 
+  ggplot(aes(x = excellent)) + 
+  geom_histogram() +
+  labs(
+    title = "'Excellent' Self-Reported Overall Health, BRFSS 2002",
+    x = "Proportion of respondents who reported 'excellent' overall health",
+    y = "Number of counties",
+    caption = "Data from the BRFSS, p8105 datasets package") + 
+  scale_x_continuous(breaks = c(5, 10, 15, 20, 25, 30, 35, 40, 45),
+                   labels = c(5, 10, 15, 20, 25, 30, 35, 40, 45)) + 
+  scale_y_continuous(breaks = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20),
+                   labels = c(0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20))
 ```
 
 
 *Item 4: Make a scatterplot showing the proportion of “Excellent” response values in New York County and Queens County (both in NY State) in each year from 2002 to 2010.*
 
 ```{r}
+filter(brfss, 
+       locationdesc == "NY - New York County" | locationdesc == "NY - Queens County") %>% 
+  ggplot(aes(x = year, y = excellent, color = locationdesc)) +
+  geom_point(alpha = .75, size = 2) +
+  geom_smooth(se = FALSE) +
+  labs(
+    title = "'Excellent' Self-Reported Health in 2 NY Counties",
+    x = "Year",
+    y = "Proportion of respondents",
+    caption = "Data from the BRFSS, p8105 datasets package") + 
+  scale_color_hue(name = "County")
 
 ```
 
