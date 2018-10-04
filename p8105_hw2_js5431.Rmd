@@ -72,9 +72,9 @@ Reformatting
 #### Reading in and cleaning Mr. Trash Wheel data
 
 ```{r import and clean trash wheel data}
-trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
                                  sheet = "Mr. Trash Wheel", 
-                                 range = "A2:N258") %>% 
+                                 range = "A2:N338") %>% 
   janitor::clean_names() %>% 
   filter(!is.na(dumpster)) %>% 
   mutate(
@@ -88,7 +88,7 @@ trash_wheel = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.
 2017 Precipitation Data
 
 ```{r clean precip 2017 data}
-precip_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+precip_2017 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
                                  sheet = "2017 Precipitation", 
                                  range = "A2:B14") %>% 
   janitor::clean_names() %>%
@@ -103,7 +103,7 @@ View(precip_2017)
  2016 Precipitation Data
  
 ```{r clean precip 2016 data}
-precip_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+precip_2016 = readxl::read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
                                  sheet = "2016 Precipitation", 
                                  range = "A2:B14") %>% 
   janitor::clean_names() %>%
