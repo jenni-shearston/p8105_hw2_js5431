@@ -61,10 +61,12 @@ There are `r tally(nyc_transit, ada == TRUE)` ADA compliant stations.
 Reformatting
 
 ```{r}
+nyc_transit = 
+  gather(nyc_transit, key = route_number, value = route_name, route1:route11)
 
 ```
 
-`r ` distinct stations serve the A train. Of those, `r` are ADA compliant.
+`r filter(nyc_transit, route_name == "A") %>% summarize(n_distinct(station_name))` distinct stations serve the A train. Of those, `r filter(nyc_transit, route_name == "A", ada == "TRUE") %>% summarize(n_distinct(station_name))` are ADA compliant.
 
 
 ## Problem #2
@@ -127,9 +129,9 @@ summary(precip)
 
 *Instructions: Write a paragraph about these data; you are encouraged to use inline R. Be sure to note the number of observations in both resulting datasets, and give examples of key variables. For available data, what was the total precipitation in 2017? What was the median number of sports balls in a dumpster in 2016?*
 
-The Mr. Trash Wheel dataset provides a summary of the amount of trash collected by the Mr. Trash Wheel harbor cleaning device, and has `r nrow(trash_wheel)` rows and `r ncol(trash_wheel)` columns. Information is organized by dumpster number, and Key variables include date specific information such as year, month, and actual date, volume and weight of trash, and a series of variables about specific types of trash (e.g. plastic bottles, cigarette butts, sports balls). Finally, the number of homes powered by the collected trash is also included (woohoo!).
+The Mr. Trash Wheel dataset provides a summary of the amount of trash collected by the Mr. Trash Wheel harbor cleaning device, and has `r nrow(trash_wheel)` rows and `r ncol(trash_wheel)` columns. Information is organized by dumpster number, and key variables include date specific information such as year, month, and actual date, volume and weight of trash, and a series of variables about specific types of trash (e.g. plastic bottles, cigarette butts, sports balls). Finally, the number of homes powered by the collected trash is also included (woohoo!).
 
-The precipiation dataset includes precipitation in inches from 2016 and 2017. There were `r nrow(precip)` rows and `r ncol(precip)` columns in the dataset, including information from January of 2016 to December of 2017. Key variables included year (2016 or 2017), precipiation in inches, and month.
+The precipitation dataset includes precipitation in inches from 2016 and 2017. There were `r nrow(precip)` rows and `r ncol(precip)` columns in the dataset, including information from January of 2016 to December of 2017. Key variables included year (2016 or 2017), precipiation in inches, and month.
 
 The total precipitation in 2017 for January-December was `r filter(precip, year == "2017") %>% summarise(sum_precip_2017 = sum(precip_inches))` inches. In 2016, the median number of sports balls accumulated by Mr. Trash Wheel was `r filter(trash_wheel, year == "2016") %>% summarise(med_balls_2016 = median(sports_balls))`.
 
